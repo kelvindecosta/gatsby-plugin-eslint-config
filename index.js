@@ -9,16 +9,15 @@ const { reactHasJsxRuntime } = require("gatsby/dist/utils/webpack-utils")
 // Load GraphQL schema
 const { schema } = store.getState()
 
-module.exports = {
-  ...eslintConfig(schema, reactHasJsxRuntime()).baseConfig,
+// Load default configuration
+let config = eslintConfig(schema, reactHasJsxRuntime()).baseConfig
 
-  // TODO #1
-  // Remove Gatsby's custom rules
-  extends: "react-app",
+// TODO #1
+// Remove Gatsby's custom rules
+config.extends = "react-app"
 
-  rules: {
-    // GraphQL
-    // TODO #2
-    "graphql/template-strings": "off", // Disabled because it causes a Syntax Error
-  },
-}
+// TODO #2
+// Disabled because it causes a Syntax Error
+config.rules["graphql/template-strings"] = "off"
+
+module.exports = config
