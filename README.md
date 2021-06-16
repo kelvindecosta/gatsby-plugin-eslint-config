@@ -24,7 +24,7 @@ yarn add -D gatsby-plugin-eslint-config
 
 ```js
 module.exports = {
-  extends: "gatsby-plugin-eslint-config",
+  extends: require.resolve("gatsby-plugin-eslint-config"),
 }
 ```
 
