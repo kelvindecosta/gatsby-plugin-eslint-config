@@ -4,20 +4,53 @@
 
 const { store } = require("gatsby/dist/redux")
 const { eslintConfig } = require("gatsby/dist/utils/eslint-config")
+const {
+  rules: customGatsbyRules,
+} = require("gatsby/dist/utils/eslint/required")
 const { reactHasJsxRuntime } = require("gatsby/dist/utils/webpack-utils")
 
 // Load GraphQL schema
 const { schema } = store.getState()
 
 // Load default configuration
-let config = eslintConfig(schema, reactHasJsxRuntime()).baseConfig
+const config = eslintConfig(schema, reactHasJsxRuntime()).baseConfig
 
-// TODO #1
-// Remove Gatsby's custom rules
-config.extends = "react-app"
+module.exports = {
+  configs: {
+    recommended: {
+      ...config,
 
-// TODO #2
-// Disabled because it causes a Syntax Error
-config.rules["graphql/template-strings"] = "off"
+      // Remove `gatsby/dist/utils/eslint/required` from `extends`
+      // This module loads Gatsby's custom rules without prefixing with the plugin name
+      extends: config.extends.filter(
+        module => !module.includes("gatsby/dist/utils/eslint/required")
+      ),
 
-module.exports = config
+      rules: {
+        ...config.rules,
+
+        // Set defaults for Gatsby's custom rules
+        ...Object.entries(customGatsbyRules).reduce(
+          (ruleDefaults, [rule, settings]) => ({
+            ...ruleDefaults,
+            [`gatsby/${rule}`]: settings,
+          }),
+          {}
+        ),
+
+        // TODO #2
+        // Disabled because it causes a Syntax Error
+        "graphql/template-strings": "off",
+      },
+    },
+  },
+
+  // Provide definitions for Gatsby's custom rules
+  rules: Object.keys(customGatsbyRules).reduce(
+    (ruleDefinitions, rule) => ({
+      ...ruleDefinitions,
+      [rule]: require(`gatsby/dist/utils/eslint-rules/${rule}`),
+    }),
+    {}
+  ),
+}
