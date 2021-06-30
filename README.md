@@ -11,11 +11,11 @@ A Gatsby plugin that extends the [default ESLint configuration](https://github.c
 ## Installation
 
 ```bash
-npm i -D gatsby-plugin-eslint-config eslint-plugin-gatsby@npm:gatsby-plugin-eslint-config
+npm i -D eslint-plugin-gatsby@npm:gatsby-plugin-eslint-config
 ```
 
 ```bash
-yarn add -D gatsby-plugin-eslint-config eslint-plugin-gatsby@npm:gatsby-plugin-eslint-config
+yarn add -D eslint-plugin-gatsby@npm:gatsby-plugin-eslint-config
 ```
 
 > Installing `eslint-plugin-gatsby@npm:gatsby-plugin-eslint-config` sets `eslint-plugin-gatsby` as an alias for this plugin.
@@ -38,7 +38,7 @@ module.exports = {
 module.exports = {
   plugins: [
     {
-      resolve: "gatsby-plugin-eslint-config",
+      resolve: "eslint-plugin-gatsby",
       options: {
         extensions: ["js", "jsx", "ts", "tsx"],
         failOnError: false,
