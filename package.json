@@ -23,12 +23,12 @@
     "url": "https://github.com/kelvindecosta/gatsby-plugin-eslint-config.git"
   },
   "dependencies": {
-    "eslint-webpack-plugin": "^2.5.4"
+    "eslint-webpack-plugin": "^3.0.1"
   },
   "peerDependencies": {
-    "gatsby": "^3.0.0"
+    "gatsby": "^3.0.0 || ^4.0.0"
   },
   "devDependencies": {
-    "prettier": "^2.3.1"
+    "prettier": "^2.4.1"
   }
 }
