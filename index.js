@@ -7,13 +7,19 @@ const { eslintConfig } = require("gatsby/dist/utils/eslint-config")
 const {
   rules: customGatsbyRules,
 } = require("gatsby/dist/utils/eslint/required")
-const { reactHasJsxRuntime } = require("gatsby/dist/utils/webpack-utils")
+const webpackUtils = require("gatsby/dist/utils/webpack-utils")
 
 // Load GraphQL schema
-const { schema } = store.getState()
+const { schema, program } = store.getState()
+
+// Check if using automatic jsx runtime
+const usingAutomaticJsxRuntime =
+  typeof webpackUtils.createWebpackConfig === "function"
+    ? webpackUtils.createWebpackConfig("develop", program) // Gatsby v4.1+
+    : webpackUtils.hasJsxRuntime()
 
 // Load default configuration
-const config = eslintConfig(schema, reactHasJsxRuntime()).baseConfig
+const config = eslintConfig(schema, usingAutomaticJsxRuntime).baseConfig
 
 module.exports = {
   configs: {
